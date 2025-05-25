@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 // for single page navigation
-// use: 
+// use:
 // const handleScrollToSubscription = () => {
 //   scrollToSection("sales-benefits");
 // };
@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 export const scrollToSection = (sectionId: string) => {
   const section = document.getElementById(sectionId);
   if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
+    section.scrollIntoView({ behavior: 'smooth' });
   }
 };
 
@@ -29,13 +29,12 @@ export const useScrollToSectionOnPage = () => {
     // Navigate to the desired path with query parameter
     router.push(`${path}?sectionId=${sectionId}`);
 
-   
     setTimeout(() => {
       const section = document.getElementById(sectionId);
       if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
+        section.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 200); 
+    }, 200);
   };
 
   return scrollToSectionOnPage;

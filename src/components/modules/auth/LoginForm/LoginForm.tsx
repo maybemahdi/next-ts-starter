@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import LoginWithGoogle from "@/components/LoginWithGoogle";
-import MyFormCheckbox from "@/components/ui/MyForm/MyFormCheckbox/MyFormCheckbox";
-import MyFormInput from "@/components/ui/MyForm/MyFormInput/MyFormInput";
-import MyFormWrapper from "@/components/ui/MyForm/MyFormWrapper/MyFormWrapper";
+import MyFormCheckbox from "@/components/ui/core/MyForm/MyFormCheckbox/MyFormCheckbox";
+import MyFormInput from "@/components/ui/core/MyForm/MyFormInput/MyFormInput";
+import MyFormWrapper from "@/components/ui/core/MyForm/MyFormWrapper/MyFormWrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { z } from "zod";
@@ -71,13 +70,12 @@ export default function LoginForm() {
               Sign in
             </button>
           </MyFormWrapper>
-          <LoginWithGoogle />
         </div>
 
         <p className="text-center text-sm text-gray-600">
           Don&apos;t have an account?
           <Link
-            href="/auth/register"
+            href="/register"
             className="font-medium text-blue-600 hover:text-blue-500 ms-1"
           >
             Sign up

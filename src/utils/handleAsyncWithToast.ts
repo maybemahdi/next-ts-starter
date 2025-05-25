@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 export const handleAsyncWithToast = async (
   asyncCallback: () => Promise<any>,
-  loadingMessage: string,
+  loadingMessage?: string,
   successMessage?: string,
   errorMessage?: string,
   isShowToast: boolean = true
