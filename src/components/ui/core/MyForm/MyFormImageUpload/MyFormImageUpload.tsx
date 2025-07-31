@@ -2,9 +2,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 type TImageUploadProps = {
   name: string;
@@ -15,7 +13,7 @@ type TImageUploadProps = {
   labelClassName?: string;
   inputClassName?: string;
   previewImageClassName?: string;
-  defaultValue?: string | StaticImport;
+  defaultValue?: string | any;
   [key: string]: any; // Allow other props
 };
 
@@ -32,7 +30,9 @@ const MyFormImageUpload = ({
   ...rest
 }: TImageUploadProps) => {
   const { control, setValue, resetField } = useFormContext();
-  const [preview, setPreview] = useState<string | StaticImport | null>(defaultValue || null);
+  const [preview, setPreview] = useState<string | any | null>(
+    defaultValue || null
+  );
   const [fileInputKey, setFileInputKey] = useState(0);
 
   // Handle file change (set preview and form value)
@@ -72,12 +72,15 @@ const MyFormImageUpload = ({
           <>
             {preview ? (
               <div className={cn(" relative w-fit", previewImageClassName)}>
-                <Image
+                <img
                   height={300}
                   width={300}
                   src={preview}
                   alt="Preview"
-                  className="h-full w-full rounded-md object-fill"
+                  className={cn(
+                    "rounded-md object-fill",
+                    previewImageClassName
+                  )}
                 />
                 <button
                   type="button"

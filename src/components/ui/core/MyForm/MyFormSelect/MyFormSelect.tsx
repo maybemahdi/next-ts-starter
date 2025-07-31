@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { Form, Select } from "antd";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { SelectProps } from "antd";
 import "./MyFormSelect.css";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 interface MyFormSelectProps {
   label?: string;
@@ -10,10 +13,13 @@ interface MyFormSelectProps {
   name: string;
   options?: SelectProps["options"];
   disabled?: boolean;
-  mode?: "multiple" | "tags"; // these are the two modes supported by Ant Design's Select
+  mode?: "multiple" | "tags"; 
   placeHolder: string;
   className?: string;
   isSearch?: boolean;
+  defaultValue?: string;
+  getSelectedValue?: (newValue: any) => void;
+  isLoading?: boolean;
 }
 
 const MyFormSelect = ({
@@ -26,7 +32,24 @@ const MyFormSelect = ({
   placeHolder,
   className,
   isSearch = false,
+  defaultValue,
+  getSelectedValue,
+  isLoading = false,
 }: MyFormSelectProps) => {
+  const { setValue, control } = useFormContext();
+  const inputValue = useWatch({
+    control,
+    name,
+  });
+  useEffect(() => {
+    if (getSelectedValue) {
+      getSelectedValue(inputValue);
+    }
+  }, [inputValue, getSelectedValue]);
+
+  useEffect(() => {
+    setValue(name, defaultValue, { shouldValidate: false });
+  }, [defaultValue, name, setValue]);
   return (
     <Controller
       name={name}
@@ -36,7 +59,7 @@ const MyFormSelect = ({
           {label && (
             <p
               className={cn(
-                "ps-1 mb-2 text-[#101828] text-base font-normal leading-6",
+                "ps-1 mb-1 text-[#101828] text-base font-normal leading-6",
                 labelClassName
               )}
             >
@@ -49,23 +72,24 @@ const MyFormSelect = ({
             <Select
               mode={mode}
               style={{ width: "100%" }}
-              className={cn(className)}
+              className={cn(className, "placeholder:!text-text-secondary")}
               {...field}
               ref={null}
-              value={field.value}
+              value={field.value ?? defaultValue}
               onChange={(value) => field.onChange(value)}
               options={options}
               size="large"
               disabled={disabled}
               placeholder={placeHolder}
               showSearch={isSearch} // Enable search functionality based on isSearch prop
+              loading={isLoading}
               filterOption={
                 isSearch
                   ? (input, option) =>
                       (option?.label ?? "")
-                        .toString()
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
+                        ?.toString()
+                        ?.toLowerCase()
+                        ?.includes(input?.toLowerCase())
                   : undefined
               }
               // filterSort={

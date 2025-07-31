@@ -13,6 +13,9 @@ export default {
         "green-primary": "#1BB68A",
         "green-light": "#E8F8F3",
         "gray-light": "#4B5563",
+        primary: "#1E6A92",
+        "text-primary": "#111827",
+        "text-secondary": "#6B7280",
       },
       container: {
         screens: {
@@ -22,10 +25,10 @@ export default {
         padding: "1.2rem",
       },
       screens: {
-        xs: "540px", 
+        xs: "540px",
       },
     },
   },
-  
+
   plugins: [],
 } satisfies Config;

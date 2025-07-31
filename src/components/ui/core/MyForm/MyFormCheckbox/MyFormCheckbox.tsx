@@ -14,7 +14,7 @@ const MyFormCheckbox = ({
   onValueChange,
 }: {
   name: string;
-  label?: string;
+  label?: any;
   labelClassName?: string;
   checkboxClassName?: string;
   value?: boolean;
@@ -53,7 +53,7 @@ const MyFormCheckbox = ({
                 {...field}
                 id={name}
                 checked={field.value}
-                className={cn("text-[#101828] dark:text-white", checkboxClassName)}
+                className={cn("text-[#101828]  ", checkboxClassName)}
               >
                 <span className={cn("text-base font-normal leading-6", labelClassName)}>
                   {label}

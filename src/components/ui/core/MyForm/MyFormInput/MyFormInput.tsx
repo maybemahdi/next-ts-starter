@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client'
+"use client";
 import { cn } from "@/lib/utils";
 import { Form, Input } from "antd";
 import { useEffect } from "react";
@@ -13,7 +13,8 @@ const MyFormInput = ({
   inputClassName,
   placeHolder,
   value,
-  onValueChange
+  onValueChange,
+  readOnly = false,
 }: {
   type?: string;
   name: string;
@@ -23,20 +24,19 @@ const MyFormInput = ({
   placeHolder?: string;
   value?: any;
   onValueChange?: (newValue: any) => void;
+  readOnly?: boolean;
 }) => {
   const { setValue, control } = useFormContext();
 
-
-    // Watch the input field's value
-    const inputValue = useWatch({
-      control,
-      name, 
-    });
+  // Watch the input field's value
+  const inputValue = useWatch({
+    control,
+    name,
+  });
 
   useEffect(() => {
     setValue(name, value, { shouldValidate: false });
   }, [value, name, setValue]);
-
 
   useEffect(() => {
     if (onValueChange) {
@@ -55,31 +55,49 @@ const MyFormInput = ({
         render={({ field, fieldState: { error } }) => (
           <div className="flex flex-col justify-center w-full">
             {label && (
-              <p className={cn("ps-1 mb-2 text-[#101828] dark:text-white text-base font-normal leading-6", labelClassName)}>
+              <p
+                className={cn(
+                  "ps-1 mb-2 text-text-primary text-base font-normal leading-6",
+                  labelClassName
+                )}
+              >
                 {label}
               </p>
             )}
             <Form.Item style={{ marginBottom: "0px" }}>
-              {
-                type =="password" ?  <Input.Password
-                {...field}
-                type={type}
-                id={name}
-                size="large"
-                className={cn("w-full ", inputClassName)}
-                placeholder={placeHolder}
-              /> :  <Input
-              {...field}
-              type={type}
-              id={name}
-              size="large"
-              className={cn("w-full dark:bg-gray-300", inputClassName)}
-              placeholder={placeHolder}
-            />
-              }
-             
+              {type == "password" ? (
+                <Input.Password
+                  {...field}
+                  type={type}
+                  id={name}
+                  size="large"
+                  className={cn(
+                    "w-full placeholder:!text-text-secondary",
+                    inputClassName
+                  )}
+                  placeholder={placeHolder}
+                />
+              ) : (
+                <Input
+                  {...field}
+                  type={type}
+                  id={name}
+                  size="large"
+                  className={cn(
+                    "w-full placeholder:!text-text-secondary font-poppins",
+                    readOnly && "cursor-not-allowed",
+                    inputClassName
+                  )}
+                  placeholder={placeHolder}
+                  readOnly={readOnly}
+                />
+              )}
             </Form.Item>
-            {error && <small style={{ color: "red" }}>{error.message}</small>}
+            {error && (
+              <small className="mt-1" style={{ color: "red" }}>
+                {error.message}
+              </small>
+            )}
           </div>
         )}
       />

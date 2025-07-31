@@ -55,7 +55,7 @@ const MyFormRadio = ({
             {label && (
               <p
                 className={cn(
-                  "ps-1 mb-2 text-[#101828] dark:text-white text-base font-normal leading-6",
+                  "ps-1 mb-2 text-[#101828]   text-base font-normal leading-6",
                   labelClassName
                 )}
               >
@@ -65,7 +65,7 @@ const MyFormRadio = ({
             <Form.Item style={{ marginBottom: "0px" }}>
               <Radio.Group
                 {...field}
-                className={cn("flex gap-3",
+                className={cn("flex gap-1",
                     direction == "row" && "flex-row",
                     direction == "col" && "flex-col",
                     radioGroupClassName)}

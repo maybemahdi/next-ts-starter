@@ -51,6 +51,7 @@ const MyFormOTP = ({
             <Input.OTP
               {...field}
               {...sharedProps} // Spread shared props
+              size="large"
             />
 
             {/* Display error message if validation fails */}
