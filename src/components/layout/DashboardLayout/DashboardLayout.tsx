@@ -1,6 +1,5 @@
-"use client";
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import logo from "@/assets/images/logo.png";
+"use client";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logoutHandler } from "@/utils/handleLogout";
@@ -263,8 +262,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       >
         <div className="flex items-center justify-between h-16 px-4">
           <Link href="/" className="flex items-center justify-center">
-            {/* <h4 className="text-2xl font-semibold">ConciergeFlow</h4> */}
-            <Image src={logo.src} width={100} height={100} alt="logo" />
+            <h4 className="text-2xl font-semibold">Logo</h4>
+            {/* <Image src={logo.src} width={100} height={100} alt="logo" /> */}
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
