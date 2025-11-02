@@ -9,11 +9,13 @@ import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 import Swal from "sweetalert2";
 import { signOut } from "next-auth/react";
+// import { getAccessToken } from "@/services/AuthService";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
   credentials: "include",
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: async (headers, { getState }) => {
+    // const access_token = await getAccessToken();
     const access_token = (getState() as RootState).auth.access_token;
     headers.set("accept", "application/json");
     if (access_token) {
@@ -78,8 +80,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
           if (result.isConfirmed) {
             api.dispatch(logout());
             signOut();
-          }
-          else if (result.isDismissed) {
+          } else if (result.isDismissed) {
             api.dispatch(logout());
             signOut();
           }
@@ -96,8 +97,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: [
-    "user", "example"
-  ],
+  tagTypes: ["user", "example"],
   endpoints: () => ({}),
 });

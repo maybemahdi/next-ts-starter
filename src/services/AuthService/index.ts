@@ -1,23 +1,23 @@
-'use server';
+"use server";
 
-import { jwtDecode } from 'jwt-decode';
-import { cookies } from 'next/headers';
-import { FieldValues } from 'react-hook-form';
+import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
+import { FieldValues } from "react-hook-form";
 
 export const registerUser = async (userData: FieldValues) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
     });
     const result = await res.json();
 
     if (result.success) {
-      (await cookies()).set('accessToken', result.data.accessToken);
-      (await cookies()).set('refreshToken', result?.data?.refreshToken);
+      (await cookies()).set("accessToken", result.data.accessToken);
+      (await cookies()).set("refreshToken", result?.data?.refreshToken);
     }
 
     return result;
@@ -29,9 +29,9 @@ export const registerUser = async (userData: FieldValues) => {
 export const loginUser = async (userData: FieldValues) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
     });
@@ -39,8 +39,8 @@ export const loginUser = async (userData: FieldValues) => {
     const result = await res.json();
 
     if (result?.success) {
-      (await cookies()).set('accessToken', result?.data?.accessToken);
-      (await cookies()).set('refreshToken', result?.data?.refreshToken);
+      (await cookies()).set("accessToken", result?.data?.accessToken);
+      (await cookies()).set("refreshToken", result?.data?.refreshToken);
     }
 
     return result;
@@ -50,7 +50,7 @@ export const loginUser = async (userData: FieldValues) => {
 };
 
 export const getCurrentUser = async () => {
-  const accessToken = (await cookies()).get('accessToken')?.value;
+  const accessToken = (await cookies()).get("accessToken")?.value;
   let decodedData = null;
 
   if (accessToken) {
@@ -61,12 +61,17 @@ export const getCurrentUser = async () => {
   }
 };
 
+export const getAccessToken = async () => {
+  const accessToken = (await cookies()).get("accessToken")?.value;
+  return accessToken;
+};
+
 export const reCaptchaTokenVerification = async (token: string) => {
   try {
-    const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
+    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         secret: process.env.NEXT_PUBLIC_RECAPTCHA_SERVER_KEY!,
@@ -81,7 +86,7 @@ export const reCaptchaTokenVerification = async (token: string) => {
 };
 
 export const logout = async () => {
-  (await cookies()).delete('accessToken');
+  (await cookies()).delete("accessToken");
 };
 
 export const getNewToken = async () => {
@@ -89,10 +94,10 @@ export const getNewToken = async () => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh-token`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: (await cookies()).get('refreshToken')!.value,
+          "Content-Type": "application/json",
+          Authorization: (await cookies()).get("refreshToken")!.value,
         },
       }
     );
