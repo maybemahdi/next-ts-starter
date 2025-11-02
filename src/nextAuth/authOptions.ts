@@ -7,18 +7,18 @@ import AppleProvider from "next-auth/providers/apple";
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
-    GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_Google_ID as string,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET as string,
-    }),
-    FacebookProvider({
-      clientId: process.env.NEXT_PUBLIC_FACEBOOK_ID as string,
-      clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_SECRET as string,
-    }),
-    AppleProvider({
-      clientId: process.env.NEXT_PUBLIC_APPLE_ID as string,
-      clientSecret: process.env.NEXT_PUBLIC_APPLE_SECRET as string,
-    }),
+    // GoogleProvider({
+    //   clientId: process.env.NEXT_PUBLIC_Google_ID as string,
+    //   clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET as string,
+    // }),
+    // FacebookProvider({
+    //   clientId: process.env.NEXT_PUBLIC_FACEBOOK_ID as string,
+    //   clientSecret: process.env.NEXT_PUBLIC_FACEBOOK_SECRET as string,
+    // }),
+    // AppleProvider({
+    //   clientId: process.env.NEXT_PUBLIC_APPLE_ID as string,
+    //   clientSecret: process.env.NEXT_PUBLIC_APPLE_SECRET as string,
+    // }),
   ],
   
 

@@ -1,0 +1,55 @@
+// proxy.ts
+import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "./services/AuthService";
+
+const authRoutes = ["/login", "/register"];
+
+// Define role-restricted routes using regex
+const roleBasedPrivateRoutes = {
+  user: [/^\/user/, /^\/create-shop/],
+  admin: [/^\/admin/],
+} as const;
+
+type Role = keyof typeof roleBasedPrivateRoutes;
+
+export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // ✅ Fetch current user (must be compatible with Node.js runtime)
+  const userInfo = await getCurrentUser();
+
+  // --- Not logged in ---
+  if (!userInfo) {
+    // Public auth pages
+    if (authRoutes.includes(pathname)) return NextResponse.next();
+
+    // Redirect to login with redirectPath param
+    const loginUrl = new URL(`/login?redirectPath=${pathname}`, request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // --- Logged in ---
+  const role = userInfo.role as Role;
+
+  // If role-based routes exist and match → allow
+  if (role && roleBasedPrivateRoutes[role]) {
+    const allowedRoutes = roleBasedPrivateRoutes[role];
+    if (allowedRoutes.some((route) => route.test(pathname))) {
+      return NextResponse.next();
+    }
+  }
+
+  // Otherwise redirect to home
+  return NextResponse.redirect(new URL("/", request.url));
+}
+
+// ✅ Tell Next.js which routes this proxy runs on
+export const config = {
+  matcher: [
+    "/login",
+    "/register",
+    "/create-shop",
+    "/admin/:path*",
+    "/user/:path*",
+  ],
+};
