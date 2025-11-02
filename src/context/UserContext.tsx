@@ -1,5 +1,5 @@
-import { getCurrentUser } from '@/services/AuthService';
-import { IUser } from '@/types';
+import { getCurrentUser } from "@/services/AuthService";
+import { IUser } from "@/types";
 import {
   createContext,
   Dispatch,
@@ -7,7 +7,7 @@ import {
   useContext,
   useEffect,
   useState,
-} from 'react';
+} from "react";
 
 interface IUserProviderValues {
   user: IUser | null;
@@ -29,7 +29,10 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    handleUser();
+    const fetchUser = async () => {
+      await handleUser();
+    };
+    fetchUser();
   }, [isLoading]);
 
   return (
@@ -43,7 +46,7 @@ export const useUser = () => {
   const context = useContext(UserContext);
 
   if (context == undefined) {
-    throw new Error('useUser must be used within the UserProvider context');
+    throw new Error("useUser must be used within the UserProvider context");
   }
 
   return context;
