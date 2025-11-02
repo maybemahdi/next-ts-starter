@@ -9,12 +9,12 @@ type TContextProvider = {
 export const ContextProvider = createContext<TContextProvider | null>(null);
 
 const MyContextProvider = ({ children }: {children: ReactNode}) => {
-  const [windowWidth, setWindowWidth] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number | null>(
+    typeof window !== "undefined" ? window.innerWidth : null
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setWindowWidth(window.innerWidth); // Set initial window width
-
       const handleWindowResize = () => {
         setWindowWidth(window.innerWidth);
       };
